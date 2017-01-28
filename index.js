@@ -1,5 +1,6 @@
 var bebop = require("node-bebop"),
-    JSFtp = require('jsftp');
+    JSFtp = require('jsftp'),
+    cv = require("opencv");
 
 var drone = bebop.createClient()
 
@@ -13,10 +14,11 @@ drone.connect(function() {
 
 drone.startMission = function() {
 	console.log("startMission!")
+	
 	//TODO INSTRUCTIONS
-	// setTimeout(function() {
- //  		p = drone.takePicture();
-	// }, 500);
+	setTimeout(function() {
+  		p = drone.takePicture();
+	}, 500);
 }
 
 drone.on('PictureEventChanged', handlePictureEventChanged)
@@ -29,20 +31,46 @@ function handlePictureEventChanged(e) {
 		filename = get_last_file(res).name;
 
 		ftp.get('internal_000/Bebop_2/media/' + filename, 
-			    '../images/' + filename, 
+			    '../ground/images/' + filename, 
 			    function(hadErr) {
 		    if (hadErr)
 		      	console.error('There was an error retrieving the file.');
 		    else
 		      	console.log('File copied successfully!');
+			  	console.log('filename:', filename)
+				detectPatterns(filename);
 	  	});
-
-	  	drone.imageFileName = filename;
 	});
 }
 
 function get_last_file(file_array) {
 	return file_array.sort((f1, f2) => f1.name.localeCompare(f2.name)).slice(-1)[0];
 }
+
+function detectPatterns(fileName) {
+	cv.readImage('../ground/images/' + fileName, function(err, im) {
+		if (err) {
+			console.log('readImage')
+			console.log(err);
+			return;
+		}
+		im.detectObject(cv.FACE_CASCADE, {}, function(e, detectedPatterns) {
+	  		if (e) {
+				console.log('detectObject')
+		    	console.log(e);
+		    	return;
+	  		}
+	  		console.log(detectedPatterns)
+	  		for (var i = 0; i < detectedPatterns.length; i++) {
+		 		var x = detectedPatterns[i];
+			    im.ellipse(x.x + x.width * 0.5, x.y + x.height * 0.4, x.width * 0.5, x.height * 0.7, [100, 200, 50], 4);
+			}
+			im.save('../ground/images/pattern_' + fileName);
+			drone.imageFileName = 'pattern_' + fileName
+			drone.nDetecedPatterns = detectedPatterns.length
+		});
+	});
+}
+
 
 module.exports = drone;

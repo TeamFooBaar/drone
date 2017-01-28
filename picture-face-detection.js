@@ -17,7 +17,8 @@ function drawFaces(fileName) {
 		  		}
 		  		for (var i = 0; i < faces.length; i++) {
 			 		var x = faces[i];
-				    im.ellipse(x.x + x.width/2, x.y + x.height/2, x.width/2, x.height/2);
+				    //im.ellipse(x.x + x.width * 0.5, x.y + x.height * 0.5, x.width * 0.5, x.height * 0.5);
+				    im.ellipse(x.x + x.width * 0.5, x.y + x.height * 0.4, x.width * 0.5, x.height * 0.7);
 				}
 				im.save('images/faces_' + fileName);
 				imageFileName = 'images/faces_' + fileName
