@@ -1,6 +1,6 @@
 var bebop = require("node-bebop"),
-    JSFtp = require('jsftp'),
-    cv = require("opencv");
+    JSFtp = require('jsftp')
+    //cv = require("opencv");
 
 var drone = bebop.createClient()
 
@@ -39,6 +39,7 @@ function handlePictureEventChanged(e) {
 		      	console.log('File copied successfully!');
 			  	console.log('filename:', filename)
 				detectPatterns(filename);
+				drone.emit('endmission');
 	  	});
 	});
 }
@@ -46,6 +47,7 @@ function handlePictureEventChanged(e) {
 function get_last_file(file_array) {
 	return file_array.sort((f1, f2) => f1.name.localeCompare(f2.name)).slice(-1)[0];
 }
+
 
 function detectPatterns(fileName) {
 	cv.readImage('../ground/images/' + fileName, function(err, im) {
