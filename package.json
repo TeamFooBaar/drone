@@ -1,0 +1,19 @@
+{
+  "name": "hackethon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.1.4",
+    "fluent-ffmpeg": "^2.1.0",
+    "ftp": "^0.3.10",
+    "jsftp": "^1.5.5",
+    "node-bebop": "^0.6.0",
+    "opencv": "^6.0.0"
+  }
+}
