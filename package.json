@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "fluent-ffmpeg": "^2.1.0",
     "jsftp": "^1.5.5",
     "node-bebop": "^0.6.0"
   }

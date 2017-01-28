@@ -67,7 +67,7 @@ function detectPatterns(fileName) {
 			}
 			im.save('../ground/images/pattern_' + fileName);
 			drone.imageFileName = 'pattern_' + fileName
-			drone.nDetecedPatterns = detectedPatterns.length
+			drone.nDetectedPatterns = detectedPatterns.length
 		});
 	});
 }
