@@ -28,7 +28,7 @@ drone.startMission = function(destination) {
 				break;
 			}
 
-			case '0x0016dab6779E90A434b0685A920ACB61a018EcAB'.toLowerCase(): {
+			case '0x0086DA4ebe8a66641Db49Bf25c1aB0B19F40C3EF'.toLowerCase(): {
 			  	drone.takeoff();
 
 				setTimeout(function() {
