@@ -8,49 +8,53 @@ var ftp = new JSFtp({
   host: "192.168.42.1"
 });
 
-drone.connect(function() {
-	console.log('Connected');
-	
-	var today = new Date().toISOString();
-  	drone.Common.currentDate(today);
-	drone.Common.currentTime(today);
-	console.log('Time updated:', today)
-});
+
+/*var today = new Date().toISOString();
+	drone.Common.currentDate(today);
+drone.Common.currentTime(today);
+console.log('Time updated:', today)*/
 
 drone.startMission = function(destination) {
-	console.log("startMission to destination :", destination)
+	drone.connect(function() {
+		console.log('Connected');
 
-	switch (destination) {
-	case '0x00B8F3cdAE98CF7FA979Cc89D410a0B5f792A103' {
-		setTimeout(function() {
-	  		drone.takePicture();
-		}, 500);
-		break;
-	}
+		console.log("startMission to destination :", destination)
 
-	case '0x0016dab6779E90A434b0685A920ACB61a018EcAB' {
-	  	drone.takeoff();
+		switch (destination) {
+			case '0x00B8F3cdAE98CF7FA979Cc89D410a0B5f792A103'.toLowerCase(): {
+				setTimeout(function() {
+			  		drone.takePicture();
+				}, 500);
+				break;
+			}
 
-		setTimeout(function() {
-	  		drone.takePicture();
-		}, 3000);
+			case '0x0016dab6779E90A434b0685A920ACB61a018EcAB'.toLowerCase(): {
+			  	drone.takeoff();
 
-		setTimeout(function() {
-			drone.land();
-		}, 4000);
-		break;
-	}
-	
-	default {
-		console.log("Unknown destination");
-	}
+				setTimeout(function() {
+			  		drone.takePicture();
+				}, 3000);
+
+				setTimeout(function() {
+					drone.land();
+				}, 4000);
+				break;
+			}
+			
+			default: {
+				console.log("Unknown destination");
+			}
+		}
+	});
 }
 
 drone.on('PictureEventChanged', handlePictureEventChanged)
 
 function handlePictureEventChanged(e) {
-	if (e.error !== 'ok')
+	if (e.error !== 'ok') {
+		console.log(e);
 		return;
+	}
 
 	ftp.ls("internal_000/Bebop_2/media", function(err, res) {
 		fileName = get_last_file(res).name;
