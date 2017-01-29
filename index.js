@@ -68,7 +68,6 @@ function handlePictureEventChanged(e) {
 		      	console.log('File copied successfully!');
 			  	console.log('filename:', fileName)
 				detectPatterns(fileName);
-				drone.emit('endMission');
 	  	});
 	});
 }
@@ -99,6 +98,7 @@ function detectPatterns(fileName) {
 			im.save('../ground/images/pattern_' + fileName);
 			drone.imageFileName = 'pattern_' + fileName
 			drone.nDetectedPatterns = detectedPatterns.length
+			drone.emit('endMission');
 		});
 	});
 }
