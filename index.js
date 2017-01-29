@@ -17,14 +17,33 @@ drone.connect(function() {
 	console.log('Time updated:', today)
 });
 
-drone.startMission = function() {
-	console.log("startMission!")
+drone.startMission = function(destination) {
+	console.log("startMission to destination :", destination)
 
+	switch (destination) {
+	case '0x00B8F3cdAE98CF7FA979Cc89D410a0B5f792A103' {
+		setTimeout(function() {
+	  		drone.takePicture();
+		}, 500);
+		break;
+	}
 
-	//TODO INSTRUCTIONS
-	setTimeout(function() {
-  		drone.takePicture();
-	}, 500);
+	case '0x0016dab6779E90A434b0685A920ACB61a018EcAB' {
+	  	drone.takeoff();
+
+		setTimeout(function() {
+	  		drone.takePicture();
+		}, 3000);
+
+		setTimeout(function() {
+			drone.land();
+		}, 4000);
+		break;
+	}
+	
+	default {
+		console.log("Unknown destination");
+	}
 }
 
 drone.on('PictureEventChanged', handlePictureEventChanged)
@@ -45,7 +64,7 @@ function handlePictureEventChanged(e) {
 		      	console.log('File copied successfully!');
 			  	console.log('filename:', fileName)
 				detectPatterns(fileName);
-				drone.emit('endmission');
+				drone.emit('endMission');
 	  	});
 	});
 }
