@@ -1,6 +1,6 @@
 var bebop = require("node-bebop"),
     JSFtp = require('jsftp')
-    //cv = require("opencv");
+    cv = require("opencv");
 
 var drone = bebop.createClient()
 
@@ -28,17 +28,17 @@ function handlePictureEventChanged(e) {
 		return;
 
 	ftp.ls("internal_000/Bebop_2/media", function(err, res) {
-		filename = get_last_file(res).name;
+		fileName = get_last_file(res).name;
 
-		ftp.get('internal_000/Bebop_2/media/' + filename, 
-			    '../ground/images/' + filename, 
+		ftp.get('internal_000/Bebop_2/media/' + fileName, 
+			    '../ground/images/' + fileName, 
 			    function(hadErr) {
 		    if (hadErr)
 		      	console.error('There was an error retrieving the file.');
 		    else
 		      	console.log('File copied successfully!');
-			  	console.log('filename:', filename)
-				detectPatterns(filename);
+			  	console.log('filename:', fileName)
+				detectPatterns(fileName);
 				drone.emit('endmission');
 	  	});
 	});
