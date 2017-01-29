@@ -10,14 +10,20 @@ var ftp = new JSFtp({
 
 drone.connect(function() {
 	console.log('Connected');
+	
+	var today = new Date().toISOString();
+  	drone.Common.currentDate(today);
+	drone.Common.currentTime(today);
+	console.log('Time updated:', today)
 });
 
 drone.startMission = function() {
 	console.log("startMission!")
-	
+
+
 	//TODO INSTRUCTIONS
 	setTimeout(function() {
-  		p = drone.takePicture();
+  		drone.takePicture();
 	}, 500);
 }
 
