@@ -21,14 +21,14 @@ drone.startMission = function(destination) {
 	console.log("startMission to destination :", destination)
 
 	switch (destination) {
-	case '0x00B8F3cdAE98CF7FA979Cc89D410a0B5f792A103' {
+	case '0x00B8F3cdAE98CF7FA979Cc89D410a0B5f792A103'.toLowerCase() {
 		setTimeout(function() {
 	  		drone.takePicture();
 		}, 500);
 		break;
 	}
 
-	case '0x0016dab6779E90A434b0685A920ACB61a018EcAB' {
+	case '0x0016dab6779E90A434b0685A920ACB61a018EcAB'.toLowerCase() {
 	  	drone.takeoff();
 
 		setTimeout(function() {
